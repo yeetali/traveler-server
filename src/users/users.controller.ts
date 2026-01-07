@@ -6,12 +6,21 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
+  UseGuards,
+  UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { QueryUserDto } from './dto/query-user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth } from '@nestjs/swagger';
+import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
 @Controller('users')
+@ApiBearerAuth()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -20,9 +29,10 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @IsPublic()
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query() queryUserDto: QueryUserDto) {
+    return this.usersService.find(queryUserDto);
   }
 
   @Get(':id')
