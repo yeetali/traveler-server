@@ -7,15 +7,11 @@ import {
   Param,
   Delete,
   Query,
-  UseGuards,
-  UseInterceptors,
-  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { QueryUserDto } from './dto/query-user.dto';
-import { AuthGuard } from '@nestjs/passport';
+import { QueryUsersDto } from './dto/query-user.dto';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { IsPublic } from 'src/auth/decorators/is-public.decorator';
 
@@ -31,7 +27,7 @@ export class UsersController {
 
   @IsPublic()
   @Get()
-  findAll(@Query() queryUserDto: QueryUserDto) {
+  findAll(@Query() queryUserDto: QueryUsersDto) {
     return this.usersService.find(queryUserDto);
   }
 

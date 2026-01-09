@@ -1,17 +1,19 @@
 import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { QueryDto } from 'src/common/dto/query.dto';
-import { User } from '../entities/user.entity';
+import { Trip } from '../entities/trip.entity';
 import { IsEnum, IsOptional } from 'class-validator';
 
 enum OrderBy {
+  TITLE = 'title',
+  START_DATE = 'startDate',
+  END_DATE = 'endDate',
   CREATED_AT = 'createdAt',
-  FIRST_NAME = 'firstName',
-  LAST_NAME = 'lastName',
-  EMAIL = 'email',
+  UPDATED_AT = 'updatedAt',
 }
-export class QueryUsersDto extends IntersectionType(
+
+export class QueryTripDto extends IntersectionType(
   QueryDto,
-  PartialType(PickType(User, ['firstName', 'lastName', 'email'])),
+  PartialType(PickType(Trip, ['title', 'startDate', 'endDate'])),
 ) {
   @IsOptional()
   @IsEnum(OrderBy)
