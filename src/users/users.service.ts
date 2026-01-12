@@ -30,7 +30,10 @@ export class UsersService extends AbstractService<QueryUsersDto, User> {
 
   async findOne(id: number) {
     try {
-      const user = await this.usersRepository.findOne({ where: { id } });
+      const user = await this.usersRepository.findOne({
+        where: { id },
+        relations: ['trips'],
+      });
       if (!user) throw new NotFoundException(`User with ID ${id} not found`);
       return user;
     } catch (error) {

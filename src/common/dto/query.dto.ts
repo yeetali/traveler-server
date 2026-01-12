@@ -1,12 +1,5 @@
 import { Transform } from 'class-transformer';
-import {
-  IsArray,
-  IsEnum,
-  isEnum,
-  IsNumber,
-  IsOptional,
-  Min,
-} from 'class-validator';
+import { IsArray, IsEnum, IsNumber, IsOptional, Min } from 'class-validator';
 
 enum Order {
   ASC = 'ASC',

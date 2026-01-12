@@ -11,11 +11,16 @@ import { Repository } from 'typeorm';
 import { QueryTripDto } from './dto/query-trip.dto';
 import { AbstractService } from 'src/common/abstract.service';
 import { Destination } from 'src/destinations/entities/destination.entity';
+import { CreateExpenseDto } from 'src/expenses/dto/create-expense.dto';
+import { Expense } from 'src/expenses/entity/expense.entity';
+import { UpdateExpenseDto } from 'src/expenses/dto/update-expense.dto';
 
 @Injectable()
 export class TripsService extends AbstractService<QueryTripDto, Trip> {
   constructor(
     @InjectRepository(Trip) private readonly tripsRepository: Repository<Trip>,
+    @InjectRepository(Expense)
+    private readonly expenseRepository: Repository<Expense>,
   ) {
     super(tripsRepository);
   }
@@ -60,6 +65,32 @@ export class TripsService extends AbstractService<QueryTripDto, Trip> {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} trip`;
+    try {
+      return this.tripsRepository.delete(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
+
+  async addExpenseToTrip(tripId: number, createExpenseDto: CreateExpenseDto) {
+    const expense = this.expenseRepository.create(createExpenseDto);
+    expense.trip = { id: tripId } as Trip;
+    return await this.expenseRepository.save(expense);
+  }
+
+  async updateExpense(id: number, updateExpenseDto: UpdateExpenseDto) {
+    try {
+      return await this.expenseRepository.update(id, updateExpenseDto);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
+
+  async deleteExpense(id: number) {
+    try {
+      return await this.expenseRepository.delete(id);
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
   }
 }

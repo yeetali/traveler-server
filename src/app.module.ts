@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { JwtGuard } from './auth/guard/jwt.guard';
+import { JwtGuard } from './auth/guards/jwt.guard';
 import { TripsModule } from './trips/trips.module';
 import { DestinationsModule } from './destinations/destinations.module';
 import dataSource from 'db/data-source';
