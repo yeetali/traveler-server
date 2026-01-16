@@ -10,8 +10,6 @@ import { JwtGuard } from './auth/guards/jwt.guard';
 import { TripsModule } from './trips/trips.module';
 import { DestinationsModule } from './destinations/destinations.module';
 import dataSource from 'db/data-source';
-import { MulterModule } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
 
 @Module({
   imports: [
