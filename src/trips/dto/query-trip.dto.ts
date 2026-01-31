@@ -2,6 +2,8 @@ import { IntersectionType, PartialType, PickType } from '@nestjs/swagger';
 import { QueryDto } from 'src/common/dto/query.dto';
 import { Trip } from '../entities/trip.entity';
 import { IsEnum, IsOptional } from 'class-validator';
+import { User } from 'src/users/entities/user.entity';
+import { Transform } from 'class-transformer';
 
 enum OrderBy {
   TITLE = 'title',
@@ -18,4 +20,10 @@ export class QueryTripDto extends IntersectionType(
   @IsOptional()
   @IsEnum(OrderBy)
   orderBy?: OrderBy;
+
+  @IsOptional()
+  @Transform(({ value }: { value: number | User }) =>
+    value && typeof value !== 'object' ? { id: Number(value) } : value,
+  )
+  user?: number;
 }

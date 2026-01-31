@@ -40,7 +40,7 @@ export class TripsService extends AbstractService<QueryTripDto, Trip> {
   async findOne(id: number) {
     const trip = await this.tripsRepository.findOne({
       where: { id },
-      relations: { user: true },
+      relations: ['user', 'destinations', 'expenses'],
     });
     if (!trip) {
       throw new NotFoundException(`Trip with ID ${id} not found`);
